@@ -7,7 +7,7 @@ const About = () => {
       {/* Hero Section */}
       <div className="text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-light text-gray-800 mb-4">
-          About <span className="font-semibold text-blue-600">Us</span>
+           <span className="font-semibold ">About Us</span>
         </h1>
         <div className="w-24 h-1 bg-blue-600 mx-auto"></div>
       </div>
