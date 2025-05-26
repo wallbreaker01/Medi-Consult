@@ -3,6 +3,7 @@ import cors from 'cors'
 import connectDB from "./config/mongodb.js"
 import connectCloudinary from "./config/cloudinary.js"
 import userRouter from "./routes/userRoute.js"
+import adminRouter from "./routes/adminRoute.js"
 import dotenv from 'dotenv';
 
 
@@ -22,6 +23,7 @@ app.use(cors())
 
 // api endpoints
 app.use("/api/user", userRouter)
+app.use("/api/admin", adminRouter)
 
 
 
