@@ -1,15 +1,26 @@
-const express = require('express');
+import express from "express"
+import cors from 'cors'
+import connectDB from "./config/mongodb.js"
+import dotenv from 'dotenv';
+
+
+
+
+// app config
+dotenv.config();
 const app = express();
-const PORT = 4000;
+const port = process.env.PORT || 4000
+connectDB()
 
 
-app.use(express.json());
+// middlewares
+app.use(express.json())
+app.use(cors())
 
-app.get('/', (req, res) => {
-  res.send('Server is running on localhost:4000');
+
+
+app.get("/", (req, res) => {
+  res.send("API Working")
 });
 
-
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+app.listen(port, () => console.log(`Server started on PORT:${port}`))
