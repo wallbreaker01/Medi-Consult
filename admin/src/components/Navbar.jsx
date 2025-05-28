@@ -1,11 +1,11 @@
 import React from 'react'
 
-const AdminContext = () => {
+const Navbar = () => {
   return (
     <div>
-        
+      
     </div>
   )
 }
 
-export default AdminContext
+export default Navbar
