@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
 import doctorModel from "../models/doctorModel.js";
+import userModel from "../models/userModel.js";
+import appointmentModel from "../models/appointmentModel.js";
 import bcrypt from "bcrypt";
 import validator from "validator";
 import { v2 as cloudinary } from "cloudinary";
