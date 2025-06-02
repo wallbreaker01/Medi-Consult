@@ -33,24 +33,37 @@ const AppContextProvider = (props) => {
     }
 
     // Getting User Profile using API
-    const loadUserProfileData = async () => {
+    // Getting User Profile using API
+const loadUserProfileData = async () => {
+    try {
+        const { data } = await axios.get(`${backendUrl}/api/user/get-profile`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
-        try {
-
-            const { data } = await axios.get(backendUrl + '/api/user/get-profile', { headers: { token } })
-
-            if (data.success) {
-                setUserData(data.userData)
-            } else {
-                toast.error(data.message)
-            }
-
-        } catch (error) {
-            console.log(error)
-            toast.error(error.message)
+        if (data.success) {
+            setUserData(data.userData);
+        } else {
+            toast.error(data.message);
         }
 
+    } catch (error) {
+        console.log(error);
+
+        // Check if token is expired
+        if (error.response?.status === 401) {
+            toast.error("Session expired. Please login again.");
+            setToken('');
+            setUserData(false);
+            localStorage.removeItem('token');
+            navigate('/login');
+        } else {
+            toast.error(error.message);
+        }
     }
+};
+
 
     useEffect(() => {
         getDoctosData()

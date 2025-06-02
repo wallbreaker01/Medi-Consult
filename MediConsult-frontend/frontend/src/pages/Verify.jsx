@@ -20,7 +20,14 @@ const Verify = () => {
 
         try {
 
-            const { data } = await axios.post(backendUrl + "/api/user/verifyStripe", { success, appointmentId }, { headers: { token } })
+            const { data } = await axios.post(backendUrl + "/api/user/verifyStripe", 
+                { success, appointmentId }, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
 
             if (data.success) {
                 toast.success(data.message)
