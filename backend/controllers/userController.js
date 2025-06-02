@@ -2,6 +2,10 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import validator from "validator";
 import userModel from "../models/userModel.js";
+import doctorModel from "../models/doctorModel.js";
+import appointmentModel from "../models/appointmentModel.js";
+import  cloudinary from "../config/cloudinary.js";
+
 
 
 // API to register user
@@ -77,7 +81,7 @@ const loginUser = async (req, res) => {
 const getProfile = async (req, res) => {
 
     try {
-        const { userId } = req.body
+        const userId = req.userId; // ✅ Now it's coming from middleware
         const userData = await userModel.findById(userId).select('-password')
 
         res.json({ success: true, userData })
@@ -93,7 +97,8 @@ const updateProfile = async (req, res) => {
 
     try {
 
-        const { userId, name, phone, address, dob, gender } = req.body
+        const {  name, phone, address, dob, gender } = req.body
+        const userId = req.userId; // ✅ Get userId from middleware, not body
         const imageFile = req.file
 
         if (!name || !phone || !dob || !gender) {
@@ -124,7 +129,8 @@ const bookAppointment = async (req, res) => {
 
     try {
 
-        const { userId, docId, slotDate, slotTime } = req.body
+        const {  docId, slotDate, slotTime } = req.body
+        const userId = req.userId; // ✅ Get userId from middleware, not body
         const docData = await doctorModel.findById(docId).select("-password")
 
         if (!docData.available) {
@@ -180,7 +186,8 @@ const bookAppointment = async (req, res) => {
 const cancelAppointment = async (req, res) => {
     try {
 
-        const { userId, appointmentId } = req.body
+        const {  appointmentId } = req.body
+        const userId = req.userId; // ✅ Get userId from middleware, not body
         const appointmentData = await appointmentModel.findById(appointmentId)
 
         
@@ -213,7 +220,7 @@ const cancelAppointment = async (req, res) => {
 const listAppointment = async (req, res) => {
     try {
 
-        const { userId } = req.body
+        const userId = req.userId; // ✅ Get userId from middleware, not body
         const appointments = await appointmentModel.find({ userId })
 
         res.json({ success: true, appointments })

@@ -18,11 +18,14 @@ const Login = () => {
     event.preventDefault();
 
     if (state === "Sign Up") {
+      try{
       const { data } = await axios.post(backendUrl + "/api/user/register", {
         name,
         email,
         password,
       });
+
+      console.log("Register response data:", data); 
 
       if (data.success) {
         localStorage.setItem("token", data.token);
@@ -30,6 +33,11 @@ const Login = () => {
       } else {
         toast.error(data.message);
       }
+    } catch (error) {
+      console.error("Registration error:", err);
+      toast.error("Registration failed");
+    }
+
     } else {
       const { data } = await axios.post(backendUrl + "/api/user/login", {
         email,

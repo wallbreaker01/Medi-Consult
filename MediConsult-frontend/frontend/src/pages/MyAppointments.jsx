@@ -39,7 +39,9 @@ const MyAppointments = () => {
   const getUserAppointments = async () => {
     try {
       const { data } = await axios.get(backendUrl + "/api/user/appointments", {
-        headers: { token },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       setAppointments(data.appointments.reverse());
     } catch (error) {
@@ -54,7 +56,9 @@ const MyAppointments = () => {
       const { data } = await axios.post(
         backendUrl + "/api/user/cancel-appointment",
         { appointmentId },
-        { headers: { token } }
+        { headers: {
+          Authorization: `Bearer ${token}`,
+        }, }
       );
 
       if (data.success) {
