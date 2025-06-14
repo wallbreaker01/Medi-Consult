@@ -13,6 +13,8 @@ import Footer from './components/Footer'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Verify from './pages/Verify'
+import Chatbox from './pages/Chatbox/Chatbox'
+import InfoForm from './pages/InfoForm'
 
 const App = () => {
   return (
@@ -30,6 +32,8 @@ const App = () => {
         <Route path='/my-appointments' element={<MyAppointments />} />
         <Route path='/my-profile' element={<MyProfile />} />
         <Route path='/verify' element={<Verify />} />
+        <Route path='/chat' element={<Chatbox/>} />
+        <Route path="/infoform" element={<InfoForm/>} />
       </Routes>
       <Footer />
     </div>
