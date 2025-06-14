@@ -15,6 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Verify from './pages/Verify'
 import Chatbox from './pages/Chatbox/Chatbox'
 import InfoForm from './pages/InfoForm'
+import UserReport from './pages/Report/UserReport'
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
         <Route path='/verify' element={<Verify />} />
         <Route path='/chat' element={<Chatbox/>} />
         <Route path="/infoform" element={<InfoForm/>} />
+        <Route path="/report" element={<UserReport/>} />
       </Routes>
       <Footer />
     </div>
