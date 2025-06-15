@@ -1,10 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import axios from 'axios'
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 export const AppContext = createContext()
 
 const AppContextProvider = (props) => {
+
+    const navigate = useNavigate(); 
 
     const currencySymbol = '$'
     const backendUrl = import.meta.env.VITE_BACKEND_URL
@@ -57,7 +60,7 @@ const loadUserProfileData = async () => {
             setToken('');
             setUserData(false);
             localStorage.removeItem('token');
-            navigate('/login');
+            navigate('/login', { replace: true });  
         } else {
             toast.error(error.message);
         }

@@ -16,15 +16,15 @@ const reportSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    contact: {
-        type: Number,
+    phone: {
+        type: String,
         required: true
     },
     c_c: {
         type: String,
         required: true
     },
-    illness_summary: {
+    summary: {
         type: String,
         required: true
     },
@@ -33,8 +33,13 @@ const reportSchema = mongoose.Schema({
         required: true
     },
     date: {
-        type: Date,
-        required: true
+        type: String,
+    },
+    height: {
+        type: Number,
+    },
+    weight: {
+        type: Number,
     }
 });
 const reportModel =mongoose.models.report || mongoose.model("Report", reportSchema);

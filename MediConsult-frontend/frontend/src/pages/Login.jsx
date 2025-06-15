@@ -16,48 +16,41 @@ const Login = () => {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-
-    if (state === "Sign Up") {
-      try{
-      const { data } = await axios.post(backendUrl + "/api/user/register", {
-        name,
-        email,
-        password,
-      });
-
-      console.log("Register response data:", data); 
-
+  
+    try {
+      const endpoint = state === "Sign Up" ? "/api/user/register" : "/api/user/login";
+      const payload = state === "Sign Up" ? { name, email, password } : { email, password };
+  
+      const { data } = await axios.post(backendUrl + endpoint, payload);
+      console.log("Auth response:", data);
+  
       if (data.success) {
         localStorage.setItem("token", data.token);
         setToken(data.token);
+        toast.success(`Welcome ${data.user?.name || ''}!`);
+        
+        // Redirect to home or previous location
+        const fromLocation = location.state?.from || "/";
+        navigate(fromLocation, { replace: true });
       } else {
         toast.error(data.message);
       }
     } catch (error) {
-      console.error("Registration error:", err);
-      toast.error("Registration failed");
-    }
-
-    } else {
-      const { data } = await axios.post(backendUrl + "/api/user/login", {
-        email,
-        password,
-      });
-
-      if (data.success) {
-        localStorage.setItem("token", data.token);
-        setToken(data.token);
-      } else {
-        toast.error(data.message);
-      }
+      console.error("Auth error:", error);
+      toast.error(
+        error.response?.data?.message || 
+        `Failed to ${state === "Sign Up" ? "register" : "login"}`
+      );
     }
   };
-
+  
+  // Keep this useEffect for token changes
   useEffect(() => {
     if (token) {
-      navigate("/");
+      const fromLocation = location.state?.from || "/";
+      navigate(fromLocation, { replace: true });
     }
-  }, [token]);
+  }, [token]);  
 
   return (
     <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">

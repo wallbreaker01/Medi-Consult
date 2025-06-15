@@ -63,7 +63,10 @@ function InfoForm() {
       age: data.get('age'),
       gender: data.get('gender'),
       bloodGroup: data.get('bloodGroup'),
-      address: data.get('address')
+      address: data.get('address'),
+      phone: data.get("phone"),
+      height: data.get("height"),
+      weight: data.get("weight"),
     }});
     navigate("/chat");
   };
