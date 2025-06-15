@@ -91,7 +91,7 @@ const AddDoctor = () => {
                     <div className='w-full lg:flex-1 flex flex-col gap-4'>
 
                         <div className='flex-1 flex flex-col gap-1'>
-                            <p>Your name</p>
+                            <p>Dcotor's name</p>
                             <input onChange={e => setName(e.target.value)} value={name} className='border rounded px-3 py-2' type="text" placeholder='Name' required />
                         </div>
 
@@ -115,6 +115,7 @@ const AddDoctor = () => {
                                 <option value="4 Year">4 Years</option>
                                 <option value="5 Year">5 Years</option>
                                 <option value="6 Year">6 Years</option>
+                                <option value="7 Year">7 Years</option>
                                 <option value="8 Year">8 Years</option>
                                 <option value="9 Year">9 Years</option>
                                 <option value="10 Year">10 Years</option>``
