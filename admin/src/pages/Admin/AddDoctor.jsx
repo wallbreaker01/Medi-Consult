@@ -117,7 +117,13 @@ const AddDoctor = () => {
                                 <option value="6 Year">6 Years</option>
                                 <option value="8 Year">8 Years</option>
                                 <option value="9 Year">9 Years</option>
-                                <option value="10 Year">10 Years</option>
+                                <option value="10 Year">10 Years</option>``
+                                <option value="11 Year">11 Years</option>
+                                <option value="12 Year">12 Years</option>
+                                <option value="13 Year">13 Years</option>
+                                <option value="14 Year">14 Years</option>
+                                <option value="15 Year">15 Years</option>
+
                             </select>
                         </div>
 
@@ -139,6 +145,15 @@ const AddDoctor = () => {
                                 <option value="Pediatricians">Pediatricians</option>
                                 <option value="Neurologist">Neurologist</option>
                                 <option value="Gastroenterologist">Gastroenterologist</option>
+                                <option value="Cardiologist">Cardiologist</option>
+                                <option value="Neurology Specialists">Neurology Specialists</option>
+                                <option value="Psychiatry Specialists">Psychiatry Specialists</option>
+                                <option value="Psychologist">Psychologist</option>
+                                <option value="Orthopedic Surgeon">Orthopedic Surgeon</option>
+                                <option value="Ophthalmologist">Ophthalmologist</option>
+                                <option value="Urologist">Urologist</option>
+                                <option value="Endocrinologist">Endocrinologist</option>
+                                <option value="Radiologist">Radiologist</option>
                             </select>
                         </div>
 
