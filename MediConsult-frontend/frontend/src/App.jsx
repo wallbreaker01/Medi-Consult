@@ -16,6 +16,8 @@ import Verify from './pages/Verify'
 import Chatbox from './pages/Chatbox/Chatbox'
 import InfoForm from './pages/InfoForm'
 import UserReport from './pages/Report/UserReport'
+import PaymentSuccess from './pages/payment/Success'
+import PaymentFailed from './pages/payment/Failed'
 
 const App = () => {
   return (
@@ -36,6 +38,8 @@ const App = () => {
         <Route path='/chat' element={<Chatbox/>} />
         <Route path="/infoform" element={<InfoForm/>} />
         <Route path="/report/:id" element={<UserReport/>} />
+        <Route path="/payment-success/:id" element={<PaymentSuccess/>} />
+        <Route path="/payment-failed/:id" element={<PaymentFailed/>} />
       </Routes>
       <Footer />
     </div>
