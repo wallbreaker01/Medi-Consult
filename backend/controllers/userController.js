@@ -5,8 +5,13 @@ import userModel from "../models/userModel.js";
 import doctorModel from "../models/doctorModel.js";
 import appointmentModel from "../models/appointmentModel.js";
 import  cloudinary from "../config/cloudinary.js";
+import SSLCommerzPayment from "sslcommerz-lts";
 
+const store_id = process.env.STORE_ID;
+const store_passwd = process.env.STORE_PASSWD;
+const is_live = false;
 
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:4000";
 
 // API to register user
 const registerUser = async (req, res) => {
@@ -46,7 +51,7 @@ const registerUser = async (req, res) => {
         res.json({ success: true, token })
 
     } catch (error) {
-        console.log(error+"hush")
+        console.log(error)
         res.json({ success: false, message: error.message })
     }
 }
@@ -121,6 +126,66 @@ const updateProfile = async (req, res) => {
     } catch (error) {
         console.log(error)
         res.json({ success: false, message: error.message })
+    }
+}
+
+const payAppointmentBooking = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const appointmentData = await appointmentModel.findById(id).populate('userId').populate('docId');
+
+        if (!appointmentData) {
+            return res.json({ success: false, message: 'Appointment not found' });
+        }
+        
+        if (appointmentData.cancelled) {
+            return res.json({ success: false, message: 'Appointment already cancelled' });
+        }
+        else if (appointmentData.isPaid) {
+            return res.json({ success: false, message: 'Appointment already paid' });
+        }
+        else {
+            const data = {
+                total_amount: appointmentData.amount, // registration fee
+                currency: "BDT",
+                tran_id: id,
+                success_url: `${BACKEND_URL}/api/payment/success/${id}`,
+                fail_url: `${BACKEND_URL}/api/payment/failed/${id}`,
+                cancel_url: `${BACKEND_URL}/api/payment/cancel/${id}`,
+                ipn_url: `${BACKEND_URL}/api/payment/ipn`,
+                shipping_method: "Courier",
+                product_name: "Appointment Booking Fee",
+                product_category: "N/A",
+                product_profile: "general",
+                cus_name: appointmentData.userData.name,
+                cus_email: appointmentData.userData.email,
+                cus_add1: "Sylhet",
+                cus_add2: "N/A",
+                cus_city: "N/A",
+                cus_state: "N/A",
+                cus_postcode: "N/A",
+                cus_country: appointmentData.userData.country || "Bangladesh",
+                cus_phone: appointmentData.userData.phone || "01700011122",
+                cus_fax: "N/A",
+                ship_name: appointmentData.userData.name,
+                ship_add1: "SUST",
+                ship_add2: "N/A",
+                ship_city: "N/A",
+                ship_state: "N/A",
+                ship_postcode: 1000,
+                ship_country: appointmentData.userData.country || "Bangladesh",
+            }
+            const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+        sslcz.init(data).then(apiResponse => {
+            // Redirect the user to payment gateway
+            let GatewayPageURL = apiResponse.GatewayPageURL
+            res.status(200).json({ success: true, message: "Payment is processing, please wait...", url:GatewayPageURL });
+            console.log('Redirecting to: ', GatewayPageURL)
+        });
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
     }
 }
 
@@ -239,5 +304,6 @@ export {
     updateProfile,
     bookAppointment,
     cancelAppointment,
-    listAppointment
+    listAppointment,
+    payAppointmentBooking
 }

@@ -12,6 +12,20 @@ const MyAppointments = () => {
   const [appointments, setAppointments] = useState([]);
   const [payment, setPayment] = useState("");
 
+  const handlePayment = async (appointmentId) => {
+    try {
+      const response = await axios.post(
+        backendUrl + "/api/user/pay/" + appointmentId,
+      )
+      if (response.status === 200) {
+        window.location.replace(response.data.url);
+      }
+    } catch (error) {
+      toast.error("Payment failed. Please try again.");
+      console.error("Payment error:", error);
+    }
+  };
+
   const months = [
     "Jan",
     "Feb",
@@ -190,7 +204,7 @@ const MyAppointments = () => {
                 !item.isCompleted &&
                 payment !== item._id && (
                   <button
-                    onClick={() => setPayment(item._id)}
+                    onClick={() => handlePayment(item._id)}
                     className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300"
                   >
                     Pay Online
