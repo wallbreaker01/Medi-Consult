@@ -1,25 +1,30 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-export default function PaymentFailed() {
-  const { id } = useParams();
-  return (
-    <div className="flex flex-col justify-center items-center min-h-screen">
-      <div className="rounded-md shadow-md border">
-        <div className="p-6 text-center">
-          <h1 className="text-2xl font-bold mb-4">Payment Failed!</h1>
-          <p className="text-gray-700 mb-4">
-            Your payment for appointment ID:{" "}
-            <span className="font-semibold">{id}</span> has been unsuccessful.
-          </p>
-          <p className="text-gray-600">Please Try Again</p>
+const PaymentFailed = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Clear the local storage flag for this specific appointment ID
+        localStorage.removeItem(`payment_initiated_${id}`);
+        toast.error("Payment failed. Please try again.");
+
+        // Redirect back to the appointments page after a short delay
+        const timer = setTimeout(() => {
+            navigate('/my-appointments');
+        }, 3000); 
+
+        return () => clearTimeout(timer);
+    }, [id, navigate]);
+
+    return (
+        <div className="flex flex-col items-center justify-center h-screen bg-red-100">
+            <h1 className="text-4xl text-red-600 font-bold mb-4">Payment Failed ❌</h1>
+            <p className="text-lg text-gray-700">Redirecting to your appointments page...</p>
         </div>
-        <div className="bg-gray-100 p-4 rounded-b-md">
-          <a href="/" className="text-blue-500 hover:underline">
-            Go back to Home
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-}
+    );
+};
+
+export default PaymentFailed;
